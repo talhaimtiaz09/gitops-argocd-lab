@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: platform-project
+  namespace: argocd
+spec:
+  # Why a SEPARATE project (not extending demo-project):
+  # Platform add-ons (External Secrets Operator here; on EKS also
+  # kube-prometheus-stack, Loki, Karpenter) install CLUSTER-SCOPED resources —
+  # CRDs, ClusterRoles, webhooks. demo-project is intentionally tight (it may only
+  # create Namespaces at cluster scope). Granting it the broad install permissions
+  # a platform chart needs would blow that guardrail open for every app workload.
+  # Keeping platform installs in their own project preserves least-privilege:
+  # app workloads stay locked down, platform installs get the access they need.
+  description: Platform add-ons installed by Argo CD (External Secrets Operator, ...)
+  sourceRepos:
+    - 'https://github.com/talhaimtiaz09/gitops-argocd-lab.git'
+    - 'https://charts.external-secrets.io'        # ESO Helm chart
+  destinations:
+    - namespace: 'external-secrets'
+      server: https://kubernetes.default.svc
+    - namespace: 'argocd'
+      server: https://kubernetes.default.svc
+  # Platform charts install CRDs / ClusterRoles / webhooks — allow cluster + namespaced kinds.
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'

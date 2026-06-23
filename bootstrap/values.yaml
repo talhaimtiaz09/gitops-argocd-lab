@@ -1,0 +1,33 @@
+# Argo CD Helm chart values — committed so the install is reproducible.
+# Chart: argo/argo-cd  (version is PINNED in bootstrap/install.sh, never 'latest').
+# The chart's appVersion controls the Argo CD image tag, so pinning the chart
+# version pins Argo CD itself.
+#
+# This is a LOCAL / kind-friendly config. On EKS you'd front argocd-server with
+# an ingress/LoadBalancer + real TLS and turn `server.insecure` back off.
+
+global:
+  domain: argocd.local
+
+configs:
+  params:
+    # Serve plaintext so `kubectl port-forward 8080:443` + `--insecure` works on kind.
+    server.insecure: true
+
+server:
+  replicas: 1
+
+repoServer:
+  replicas: 1
+
+controller:
+  replicas: 1
+
+applicationSet:
+  replicas: 1
+
+dex:
+  enabled: false        # no SSO in the lab
+
+notifications:
+  enabled: false

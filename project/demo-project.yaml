@@ -26,12 +26,19 @@ spec:
       kind: ConfigMap
     - group: ''
       kind: Service
+    - group: ''
+      kind: Pod                        # Vault dev pod (platform/, deployed into dev)
     - group: apps
       kind: Deployment
     - group: batch
       kind: Job
     - group: autoscaling
       kind: HorizontalPodAutoscaler
+    # External Secrets Operator CRs synced by the secrets-backend app (into dev):
+    - group: external-secrets.io
+      kind: SecretStore
+    - group: external-secrets.io
+      kind: ExternalSecret
   syncWindows:
     - kind: deny
       schedule: '0 0 * * *'

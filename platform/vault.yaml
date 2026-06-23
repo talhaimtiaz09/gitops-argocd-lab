@@ -1,0 +1,60 @@
+# ====================================================================
+#  ⚠️  NON-PRODUCTION — Vault DEV MODE  ⚠️
+#  In-memory, single replica, NO persistence, NO unseal, root token = "root".
+#  Stand-in for AWS Secrets Manager so we can rehearse the ESO flow on kind.
+#  On EKS this entire file is DELETED — ESO points at Secrets Manager instead
+#  (see the EKS TODO in platform/secretstore.yaml).
+# ====================================================================
+apiVersion: v1
+kind: Pod
+metadata:
+  name: vault
+  labels:
+    app: vault
+    lab.example.com/non-production: "true"
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  containers:
+    - name: vault
+      image: hashicorp/vault:1.17.6      # PINNED, never 'latest'
+      args: ["server", "-dev"]
+      env:
+        - name: VAULT_DEV_ROOT_TOKEN_ID
+          value: "root"                  # dev-mode throwaway token (NOT a real secret value)
+        - name: VAULT_DEV_LISTEN_ADDRESS
+          value: "0.0.0.0:8200"
+        - name: VAULT_ADDR
+          value: "http://127.0.0.1:8200"
+      ports:
+        - containerPort: 8200
+          name: http
+      securityContext:
+        capabilities:
+          add: ["IPC_LOCK"]
+      readinessProbe:
+        httpGet:
+          path: /v1/sys/health?standbyok=true
+          port: 8200
+        initialDelaySeconds: 5
+        periodSeconds: 5
+      volumeMounts:
+        - name: data
+          mountPath: /vault/file
+  volumes:
+    - name: data
+      emptyDir: {}                       # in-memory only; nothing persisted
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vault
+  labels:
+    app: vault
+spec:
+  selector:
+    app: vault
+  ports:
+    - name: http
+      port: 8200
+      targetPort: 8200
