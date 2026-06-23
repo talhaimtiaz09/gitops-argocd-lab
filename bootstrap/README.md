@@ -15,7 +15,7 @@ helm repo update argo
 helm upgrade --install argocd argo/argo-cd \
   --namespace argocd --create-namespace \
   --version 7.7.11 \
-  --values bootstrap/values.yaml \
+  --values bootstrap/argocd-values.yaml \
   --wait
 
 # 3. Admin password + UI
@@ -25,7 +25,7 @@ kubectl -n argocd port-forward svc/argocd-server 8080:443   # keep running
 argocd login localhost:8080 --username admin --password '<password>' --insecure
 ```
 
-Or just run `./bootstrap/install.sh` (does steps 1–3).
+Or just run `./bootstrap/install-argocd.sh` (does steps 1–3).
 
 ## Why pinned?
 `argo/argo-cd` **7.7.11** maps to Argo CD **v2.13.x**. Pinning the chart pins the

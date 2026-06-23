@@ -14,7 +14,7 @@ helm repo update argo
 helm upgrade --install argocd argo/argo-cd \
   --namespace "${NAMESPACE}" --create-namespace \
   --version "${ARGOCD_CHART_VERSION}" \
-  --values "${HERE}/values.yaml" \
+  --values "${HERE}/argocd-values.yaml" \
   --wait
 
 kubectl -n "${NAMESPACE}" rollout status deploy/argocd-server

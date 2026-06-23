@@ -4,7 +4,7 @@ Rehearse the EKS Phase 2 secrets flow locally on kind, free. You'll install Argo
 *as code*, have ArgoCD manage a platform add-on (External Secrets Operator), and
 sync a secret from a backend into your app — proving no plaintext secret lives in Git.
 
-Same style as RUN.md: run each block, check **👀 you should see**, move on.
+Same style as `runbook-kind-core.md`: run each block, check **👀 you should see**, move on.
 Total time: ~45–60 min. See `architecture.md` for the end-to-end picture.
 
 > Prereqs: this repo + `kind`, `kubectl`, `helm`, and the `argocd` CLI installed.
@@ -28,8 +28,8 @@ Goal: stop using raw `kubectl apply` for ArgoCD. Install it via its official Hel
 chart at a pinned version, the way you will on EKS.
 
 ```bash
-# pinned chart + committed values (see bootstrap/values.yaml)
-./bootstrap/install.sh
+# pinned chart + committed values (see bootstrap/argocd-values.yaml)
+./bootstrap/install-argocd.sh
 
 # UI in another terminal (keep it running):
 kubectl -n argocd port-forward svc/argocd-server 8080:443

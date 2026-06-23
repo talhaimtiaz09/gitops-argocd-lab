@@ -37,7 +37,7 @@ ESO then materializes the K8s Secret automatically:
 kubectl -n dev get secret web-db-credentials
 ```
 
-## Rotation (RUN2 step 8)
+## Rotation (docs/runbook-kind-secrets.md step 8)
 Write a new password to the **same** Vault path; within `refreshInterval` (15s) ESO
 updates the K8s Secret. The web app consumes it via **env vars**, so restart the pod
 to pick up the new value (`kubectl -n dev rollout restart deploy/web`).

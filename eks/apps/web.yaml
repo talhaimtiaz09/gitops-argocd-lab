@@ -1,19 +1,25 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: prod
+  name: eks-web
   namespace: argocd
+  annotations:
+    # After the secret exists (wave 2) so the pod's envFrom resolves cleanly.
+    argocd.argoproj.io/sync-wave: "3"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: demo-project
+  project: eks-project
   source:
     repoURL: https://github.com/talhaimtiaz09/argocd-gitops-config.git
     targetRevision: main
-    path: overlays/prod
+    path: overlays/eks       # reuses base/ + consumes web-db-credentials
   destination:
     server: https://kubernetes.default.svc
-    namespace: prod
+    namespace: web
   syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true

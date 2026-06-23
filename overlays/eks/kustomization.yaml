@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: web
+resources:
+  - ../../base
+patches:
+  - path: replica-patch.yaml
+  - path: db-credentials-patch.yaml      # consume the ESO-synced web-db-credentials Secret
+configMapGenerator:
+  - name: web-config
+    behavior: merge
+    literals:
+      - ENVIRONMENT=eks
+generatorOptions:
+  disableNameSuffixHash: true

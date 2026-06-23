@@ -6,7 +6,7 @@ metadata:
 spec:
   description: Project for the multi-env GitOps lab
   sourceRepos:
-    - 'https://github.com/talhaimtiaz09/gitops-argocd-lab.git'
+    - 'https://github.com/talhaimtiaz09/argocd-gitops-config.git'
   destinations:
     - namespace: 'dev'
       server: https://kubernetes.default.svc

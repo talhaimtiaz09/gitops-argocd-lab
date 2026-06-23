@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: eks-project
+  namespace: argocd
+spec:
+  # The EKS environment's app-of-apps lives under eks/. It installs the External
+  # Secrets Operator (cluster-scoped CRDs/ClusterRoles/webhooks), wires AWS Secrets
+  # Manager, and deploys the sample web workload. For a single-env demo this one
+  # project covers all of it with a broad whitelist; in production you'd split it
+  # the way the kind lab does (demo-project for workloads, platform-project for
+  # add-ons) to keep least-privilege.
+  description: EKS environment — web workload + ESO + AWS Secrets Manager wiring
+  sourceRepos:
+    - 'https://github.com/talhaimtiaz09/argocd-gitops-config.git'
+    - 'https://charts.external-secrets.io'        # ESO Helm chart
+  destinations:
+    - namespace: 'web'
+      server: https://kubernetes.default.svc
+    - namespace: 'external-secrets'
+      server: https://kubernetes.default.svc
+    - namespace: 'argocd'
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'

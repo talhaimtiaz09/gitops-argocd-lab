@@ -14,7 +14,7 @@ spec:
   # app workloads stay locked down, platform installs get the access they need.
   description: Platform add-ons installed by Argo CD (External Secrets Operator, ...)
   sourceRepos:
-    - 'https://github.com/talhaimtiaz09/gitops-argocd-lab.git'
+    - 'https://github.com/talhaimtiaz09/argocd-gitops-config.git'
     - 'https://charts.external-secrets.io'        # ESO Helm chart
   destinations:
     - namespace: 'external-secrets'

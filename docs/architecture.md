@@ -41,7 +41,7 @@ else is reconstructed from Git.
 ```
  you ──► helm repo add argo https://argoproj.github.io/argo-helm
      ──► helm install argocd argo/argo-cd  --version 7.7.11        (PINNED)
-                                            --values bootstrap/values.yaml  (COMMITTED)
+                                            --values bootstrap/argocd-values.yaml  (COMMITTED)
                           │
                           ▼
               ┌────────────────────────┐
@@ -185,7 +185,7 @@ Result:
         ▼  env-var consumer needs a restart to pick it up:
   kubectl -n dev rollout restart deploy/web
 ```
-(Mounted-file consumers would update live; env vars need the restart — noted in RUN2 §8.)
+(Mounted-file consumers would update live; env vars need the restart — noted in runbook-kind-secrets.md §8.)
 
 ---
 

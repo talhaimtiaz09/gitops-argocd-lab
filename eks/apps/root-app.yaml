@@ -1,19 +1,26 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: prod
+  name: eks-root
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: demo-project
+  project: eks-project
   source:
     repoURL: https://github.com/talhaimtiaz09/argocd-gitops-config.git
     targetRevision: main
-    path: overlays/prod
+    path: eks/apps
+    directory:
+      recurse: false
+      # app-of-apps for EKS — same pattern as the kind root, AWS-flavored children.
+      include: '{external-secrets-operator.yaml,secrets.yaml,web.yaml}'
   destination:
     server: https://kubernetes.default.svc
-    namespace: prod
+    namespace: argocd
   syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true

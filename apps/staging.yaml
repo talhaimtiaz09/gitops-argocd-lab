@@ -8,7 +8,7 @@ metadata:
 spec:
   project: demo-project
   source:
-    repoURL: https://github.com/talhaimtiaz09/gitops-argocd-lab.git
+    repoURL: https://github.com/talhaimtiaz09/argocd-gitops-config.git
     targetRevision: main
     path: chart
     helm:
