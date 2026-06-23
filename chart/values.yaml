@@ -1,0 +1,5 @@
+replicaCount: 2
+environment: staging
+image:
+  repository: nginx
+  tag: "1.27.0"

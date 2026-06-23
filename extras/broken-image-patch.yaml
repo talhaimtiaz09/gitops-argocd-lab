@@ -1,0 +1,13 @@
+# TASK 9: copy this content into overlays/dev/replica-patch.yaml (add the image line)
+# to make the deployment Degraded, then revert.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: web
+          image: nginx:doesnotexist-9.9.9

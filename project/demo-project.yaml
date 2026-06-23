@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: demo-project
+  namespace: argocd
+spec:
+  description: Project for the multi-env GitOps lab
+  sourceRepos:
+    - 'https://github.com/talhaimtiaz09/gitops-argocd-lab.git'
+  destinations:
+    - namespace: 'dev'
+      server: https://kubernetes.default.svc
+    - namespace: 'staging'
+      server: https://kubernetes.default.svc
+    - namespace: 'prod'
+      server: https://kubernetes.default.svc
+    - namespace: 'argocd'
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: ''
+      kind: Namespace
+  namespaceResourceWhitelist:
+    - group: ''
+      kind: ConfigMap
+    - group: ''
+      kind: Service
+    - group: apps
+      kind: Deployment
+    - group: batch
+      kind: Job
+    - group: autoscaling
+      kind: HorizontalPodAutoscaler
+  syncWindows:
+    - kind: deny
+      schedule: '0 0 * * *'
+      duration: 1h
+      applications:
+        - prod
+      manualSync: true
