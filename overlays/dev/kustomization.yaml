@@ -13,5 +13,6 @@ configMapGenerator:
     behavior: merge
     literals:
       - ENVIRONMENT=dev
+      - SECRET_BACKEND=vault-dev
 generatorOptions:
   disableNameSuffixHash: true

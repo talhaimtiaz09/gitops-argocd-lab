@@ -6,3 +6,5 @@ metadata:
     argocd.argoproj.io/sync-wave: "-1"
 data:
   ENVIRONMENT: "base"
+  SECRET_BACKEND: "none"
+  IMAGE_TAG: "latest"

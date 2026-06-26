@@ -1,5 +1,6 @@
 replicaCount: 2
 environment: staging
+secretBackend: "none"
 image:
-  repository: nginx
-  tag: "1.27.0"
+  repository: ghcr.io/talhaimtiaz09/platform-status-dashboard
+  tag: "latest"

@@ -11,5 +11,6 @@ configMapGenerator:
     behavior: merge
     literals:
       - ENVIRONMENT=eks
+      - SECRET_BACKEND=aws-secrets-manager
 generatorOptions:
   disableNameSuffixHash: true

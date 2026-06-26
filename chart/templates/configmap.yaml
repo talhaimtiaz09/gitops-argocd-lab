@@ -6,3 +6,5 @@ metadata:
     argocd.argoproj.io/sync-wave: "-1"
 data:
   ENVIRONMENT: {{ .Values.environment | quote }}
+  SECRET_BACKEND: {{ .Values.secretBackend | quote }}
+  IMAGE_TAG: {{ .Values.image.tag | quote }}
